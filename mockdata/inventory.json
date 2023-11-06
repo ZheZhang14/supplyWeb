@@ -1,0 +1,57 @@
+[
+	{
+		"productId": 1,
+		"productName": "cola",
+		"stockQuantity": 100,
+		"expiredQuantity": 10,
+		"damagedQuantity": 20
+	}, {
+		"productId": 2,
+		"productName": "chocolate",
+		"stockQuantity": 1000,
+		"expiredQuantity": 1,
+		"damagedQuantity": 2
+	}, {
+		"productId": 3,
+		"productName": "candy",
+		"stockQuantity": 200,
+		"expiredQuantity": 3,
+		"damagedQuantity": 4
+	}, {
+		"productId": 4,
+		"productName": "computer",
+		"stockQuantity": 300,
+		"expiredQuantity": 4,
+		"damagedQuantity": 5
+	}, {
+		"productId": 5,
+		"productName": "book",
+		"stockQuantity": 400,
+		"expiredQuantity": 5,
+		"damagedQuantity": 6
+	}, {
+		"productId": 6,
+		"productName": "water",
+		"stockQuantity": 500,
+		"expiredQuantity": 7,
+		"damagedQuantity": 8
+	}, {
+		"productId": 7,
+		"productName": "watch",
+		"stockQuantity": 600,
+		"expiredQuantity": 8,
+		"damagedQuantity": 9
+	}, {
+		"productId": 8,
+		"productName": "starbucks coffee",
+		"stockQuantity": 700,
+		"expiredQuantity": 10,
+		"damagedQuantity": 11
+	}, {
+		"productId": 9,
+		"productName": "sofa",
+		"stockQuantity": 800,
+		"expiredQuantity": 20,
+		"damagedQuantity": 30
+	}
+]

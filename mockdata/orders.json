@@ -1,0 +1,75 @@
+[
+	{
+		"id": 1,
+		"createtime": "2023-11-03T06:26:23.401Z",
+		"updatetime": "2023-11-03T06:26:23.401Z",
+		"productId": 1,
+		"productName": "cola",
+		"vendorId": 1,
+		"vendorName": "test supplier",
+		"productPrice": 190.11,
+		"count": 10,
+		"status": "done",
+		"totalPrice": 1901.10
+	}, {
+		"id": 2,
+		"createtime": "2023-11-02T06:26:23.401Z",
+		"updatetime": "2023-11-02T06:26:23.401Z",
+		"productId": 3,
+		"productName": "candy",
+		"vendorId": 4,
+		"vendorName": "test manufacturer",
+		"productPrice": 5,
+		"count": 100,
+		"status": "created",
+		"totalPrice": 500
+	}, {
+		"id": 3,
+		"createtime": "2023-11-01T06:26:23.401Z",
+		"updatetime": "2023-11-01T06:26:23.401Z",
+		"productId": 2,
+		"productName": "chocolate",
+		"vendorId": 5,
+		"vendorName": "test name5",
+		"productPrice": 11,
+		"count": 1000,
+		"status": "inProgress",
+		"totalPrice": 11000
+	}, {
+		"id": 4,
+		"createtime": "2023-10-30T06:26:23.401Z",
+		"updatetime": "2023-10-30T06:26:23.401Z",
+		"productId": 6,
+		"productName": "water",
+		"vendorId": 2,
+		"vendorName": "test name2",
+		"productPrice": 108,
+		"count": 2,
+		"status": "requestReturn",
+		"totalPrice": 216
+	}, {
+		"id": 5,
+		"createtime": "2023-10-28T06:26:23.401Z",
+		"updatetime": "2023-10-28T06:26:23.401Z",
+		"productId": 1,
+		"productName": "cola",
+		"vendorId": 1,
+		"vendorName": "test supplier",
+		"productPrice": 190.11,
+		"count": 1,
+		"status": "returnApproved",
+		"totalPrice": 190.11
+	}, {
+		"id": 6,
+		"createtime": "2023-10-29T06:26:23.401Z",
+		"updatetime": "2023-10-29T06:26:23.401Z",
+		"productId": 6,
+		"productName": "water",
+		"vendorId": 2,
+		"vendorName": "test name2",
+		"productPrice": 108,
+		"count": 1,
+		"status": "rejected",
+		"totalPrice": 108
+	}
+]

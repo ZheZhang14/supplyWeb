@@ -1,0 +1,53 @@
+[
+	{
+		"id": 1,
+		"name": "test supplier",
+		"role": "supplier",
+		"email": "test@scu.edu",
+		"phone": 1234567890,
+		"address": "test address",
+		"imageLink": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+	}, {
+		"id": 2,
+		"name": "test name2",
+		"role": "distributor",
+		"email": "test2@scu.edu",
+		"phone": 1234567890,
+		"address": "test address2",
+		"imageLink": "https://writestylesonline.com/wp-content/uploads/2018/11/Three-Statistics-That-Will-Make-You-Rethink-Your-Professional-Profile-Picture.jpg"
+	}, {
+		"id": 3,
+		"name": "test name3",
+		"role": "manufacturer",
+		"email": "test3@scu.edu",
+		"phone": 1234567890,
+		"address": "test address3",
+		"imageLink": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+	}, {
+		"id": 4,
+		"name": "test manufacturer",
+		"role": "manufacturer",
+		"email": "test4@scu.edu",
+		"phone": 1234567890,
+		"address": "test address4",
+		"imageLink": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+	}
+	, {
+		"id": 5,
+		"name": "test name5",
+		"role": "supplier",
+		"email": "test5@scu.edu",
+		"phone": 1234567890,
+		"address": "test address5",
+		"imageLink": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+	}
+	, {
+		"id": 6,
+		"name": "test name6",
+		"role": "distributor",
+		"email": "test6@scu.edu",
+		"phone": 1234567890,
+		"address": "test address6",
+		"imageLink": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+	}
+]

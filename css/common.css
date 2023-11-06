@@ -1,0 +1,20 @@
+.rightside {
+  float: right;
+}
+
+.label-text {
+  font-size: 30px; /* Change font size as needed */
+  font-weight: bold; /* Make text bold */
+  color: #444444; /* Text color */
+  padding: 27px;
+/*  border: 1px solid #000000; /* Border around the text */*/
+  display: inline-block;
+}
+.label-header {
+  font-size: 40px; /* Change font size as needed */
+  font-weight: bold; /* Make text bold */
+  color: #000000; /* Text color */
+  padding: 20px;
+/*  border: 1px solid #000000; /* Border around the text */*/
+  display: inline-block;
+}

@@ -1,0 +1,75 @@
+[
+	{
+		"id": 1,
+		"productName": "cola",
+		"description": "taste good",
+		"price": 190.11,
+		"stage": "onMarket",
+		"vendorId": 1,
+		"vendorName": "test supplier"
+	}, {
+		"id": 3,
+		"productName": "candy",
+		"description": "lots of sugar",
+		"price": 5,
+		"stage": "offMarket",
+		"vendorId": 2,
+		"vendorName": "test name2"
+	}, {
+		"id": 2,
+		"productName": "chocolate",
+		"description": "sweet",
+		"price": 11,
+		"stage": "onMarket",
+		"vendorId": 1,
+		"vendorName": "test supplier"
+	}, {
+		"id": 6,
+		"productName": "water",
+		"description": "cheap and pure",
+		"price": 108,
+		"stage":  "onMarket",
+		"vendorId": 3,
+		"vendorName": "test name3"
+	}, {
+		"id": 4,
+		"productName": "computer",
+		"description": "dell brand",
+		"price": 1080,
+		"stage":  "offMarket",
+		"vendorId": 4,
+		"vendorName": "test manufacturer"
+	}, {
+		"id": 5,
+		"productName": "book",
+		"description": "children book",
+		"price": 8,
+		"stage":  "onMarket",
+		"vendorId": 5,
+		"vendorName": "test name5"
+	}, {
+		"id": 7,
+		"productName": "watch",
+		"description": "smart watch",
+		"price": 258,
+		"stage":  "onMarket",
+		"vendorId": 6,
+		"vendorName": "test name6"
+	}, {
+		"id": 8,
+		"productName": "starbucks coffee",
+		"description": "people like it",
+		"price": 1.8,
+		"stage":  "onMarket",
+		"vendorId": 6,
+		"vendorName": "test name6"
+	}, {
+		"id": 9,
+		"productName": "sofa",
+		"description": "leather",
+		"price": 3281,
+		"stage":  "onMarket",
+		"vendorId": 1,
+		"vendorName": "test supplier"
+	}
+]
