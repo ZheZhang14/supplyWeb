@@ -86,6 +86,7 @@
             localStorage.setItem('role', response.role);
             localStorage.setItem('username', response.username);
             localStorage.setItem('login', "true");
+            localStorage.setItem('userId', response.id);
             window.location.href = 'overview.html';
           })
           .fail(function(response) {

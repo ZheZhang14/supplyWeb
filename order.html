@@ -58,7 +58,7 @@
             <li><a href="">Another nav item</a></li>
           </ul> -->
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="original-page">
           <!-- <h1 class="page-header">Dashboard</h1>
 
           <div class="row placeholders">
@@ -67,24 +67,14 @@
               <h4>Label</h4>
               <span class="text-muted">Something else</span>
             </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
           </div> -->
 
-          <h2 class="sub-header">Products</h2>
+          <h2 class="sub-header">Orders</h2>
+          <div class="row" id="createBtnDiv">
+            <div class="col-xs-1 col-sm-1 placeholder">
+              <button class="btn btn-lg btn-primary btn-block" type="button" id="create">Create</button>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="table table-striped" id="order-table">
               <thead>
@@ -95,20 +85,13 @@
                   <th>Count</th>
                   <th>Total Price</th>
                   <th>Vendor Name</th>
+                  <th>Order Type</th>
                   <th>Status</th>
                   <th>Operations</th>
                 </tr>
               </thead>
               <tbody>
                 <!-- <tr>
-                  <td>1</td>
-                  <td>vendor name</td>
-                  <td>Supplier</td>
-                  <td><a href="">details</a></td>
-                  <td><a href="">orders</a></td>
-                  <td>Order Completed: 10/23.<br>Order Average Completion time: 10 days.</td>
-                </tr>
-                <tr>
                   <td>2</td>
                   <td>vendor name2</td>
                   <td>Distributor</td>
@@ -120,6 +103,49 @@
             </table>
           </div>
         </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="createOrder">
+          <form>
+            <h2 class="form-signin-heading">Order Create</h2>
+            <div class="form-group">
+              <label for="inputProductId" class="labels">Product Id</label>
+              <input type="text" class="form-control" id="inputProductId" placeholder="Product Id">
+            </div>
+            <div class="form-group">
+              <label for="inputName" class="labels">Product Name</label>
+              <input type="text" class="form-control" id="inputName" placeholder="Product Name">
+            </div>
+            <div class="form-group">
+              <label for="inputCount" class="labels">Count</label>
+              <input type="text" class="form-control" id="inputCount" placeholder="Count">
+            </div>
+            <div class="form-group">
+              <fieldset>
+                <legend>Order Type</legend>
+                <label class="radio-inline">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="create"> Create
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="return"> Return
+                </label>
+              </fieldset>
+            </div>
+            <!-- <div class="form-group">
+              <label for="exampleInputFile">File input</label>
+              <input type="file" id="exampleInputFile">
+              <p class="help-block">Example block-level help text here.</p>
+            </div> -->
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 placeholder">
+                <button class="btn btn-lg btn-danger btn-block" type="button" id="cancel">Cancel</button>
+              </div>
+              <div class="col-xs-6 col-sm-6 placeholder">
+                <button class="btn btn-lg btn-primary btn-block" type="button" id="createBtn">Submit</button>
+              </div>
+            </div>
+            
+          </form>
+        </div>
+      </div>
       </div>
     </div>
 
@@ -137,28 +163,96 @@
     <script src="js/viewport.js"></script>
     <script src="js/common.js"></script>
     <script>
-      $.get('mockdata/orders.json', function(data) {
-          console.log(data);
-          const $orderTableBody = $("#order-table tbody");
-    
-          data.forEach(item => {
-              const $row = $("<tr>");
-              
-              $row.append($("<td>").text(item.id));
-              $row.append($("<td>").text(item.productName));
-              $row.append($("<td>").text(item.productPrice));
-              $row.append($("<td>").text(item.count));
-              $row.append($("<td>").text(item.totalPrice));
-              $row.append($("<td>").text(item.vendorName));
-              $row.append($("<td>").text(item.status));
-              $row.append($("<td>").text("ops"));
-              
-              $orderTableBody.append($row);
-          });
+      $(document).ready(function() {
+        $("#createOrder").hide();
+        $("#createBtnDiv").click(function() {
+          $("#original-page").hide();
+          $("#createOrder").show();
+        })
+        $("#cancel").click(function(){
+          location.reload();
+        })
+        $("#createBtn").click(function() {
+          alert("successfully created!");
+          location.reload();
+        })
 
-      }).fail(function(error) {
-          console.error("Error:", error);
-      });
+
+        if (localStorage.getItem('login') != "true") {
+          window.location.href = 'signin.html';
+        }
+        const userId = getParamValue("userId");
+
+        if (localStorage.getItem('role') != "ADMIN" && userId!=localStorage.getItem('userId')) {
+          alert("You can only check your own orders!")
+          window.location.href = 'order.html?userId=' + localStorage.getItem('userId');
+        }
+
+        if (userId != null) {
+          $("#createBtnDiv").hide();
+          
+        }
+
+        const op = getParamValue("op");
+
+        if (op == 'create') {
+          $("#createBtnDiv").click();
+          $("#inputProductId").val(getParamValue("productId"));
+          $("#inputName").val(getParamValue("productName"));
+          $("#inputCount").val(getParamValue("count"));
+          $('input[name="inlineRadioOptions"][value="return"]').prop('checked', true);
+        }
+
+        $.get('mockdata/orders.json?v=1.1', function(data) {
+            console.log(data);
+            const $orderTableBody = $("#order-table tbody");
+      
+            data.forEach(item => {
+                if (userId != null && userId != item.vendorId) {
+                  return;
+                }
+                const $row = $("<tr>");
+                
+                $row.append($("<td>").text(item.id));
+                $row.append($("<td>").text(item.productName));
+                $row.append($("<td>").text(item.productPrice));
+                $row.append($("<td>").text(item.count));
+                $row.append($("<td>").text(item.totalPrice));
+                $row.append($("<td>").text(item.vendorName));
+                $row.append($("<td>").text(item.type));
+                $row.append($("<td>").text(item.status));
+                if (userId != null && item.status == "created") {
+                  $row.append($("<td>").html('<div class="row">' + 
+                    '<div class="col-xs-6 col-sm-6 placeholder">' +
+                      '<button data-orderid=' + item.id + ' class="btn btn-sm btn-danger btn-block reject" type="button">Reject</button>' +
+                    '</div>' +
+                    '<div class="col-xs-6 col-sm-6 placeholder">' + 
+                      '<button data-orderid=' + item.id + ' class="btn btn-sm btn-primary btn-block start" type="button">Start</button>' +
+                    '</div></div>'));
+                } else if (userId != null && item.status == "requestReturn") {
+                  $row.append($("<td>").html('<div class="row">' + 
+                    '<div class="col-xs-6 col-sm-6 placeholder">' +
+                      '<button data-orderid=' + item.id + ' class="btn btn-sm btn-danger btn-block reject" type="button">Reject</button>' +
+                    '</div>' +
+                    '<div class="col-xs-6 col-sm-6 placeholder">' + 
+                      '<button data-orderid=' + item.id + ' class="btn btn-sm btn-primary btn-block approve" type="button">Approve</button>' +
+                    '</div></div>'));
+                } else if (userId != null && item.status == "returnInProgress") {
+                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-sm btn-primary btn-block receive" type="button">Receive</button>'));
+                } else if (userId == null && item.status == "inProgress") {
+                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-sm btn-primary btn-block receive" type="button">Receive</button>'));
+                } else if (userId == null && item.status == "returnApproved") {
+                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-sm btn-primary btn-block start" type="button">Start</button>'));
+                } else {
+                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-sm btn-block" disabled type="button">None</button>'));
+                }
+                $orderTableBody.append($row);
+            });
+
+        }).fail(function(error) {
+            console.error("Error:", error);
+        });
+      })
 
     </script>
   </body>

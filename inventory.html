@@ -137,26 +137,38 @@
     <script src="js/viewport.js"></script>
     <script src="js/common.js"></script>
     <script>
-      $.get('mockdata/inventory.json', function(data) {
-          console.log(data);
-          const $inventoryTableBody = $("#inventory-table tbody");
-    
-          data.forEach(item => {
-              const $row = $("<tr>");
-              
-              $row.append($("<td>").text(item.productId));
-              $row.append($("<td>").text(item.productName));
-              $row.append($("<td>").text(item.stockQuantity));
-              $row.append($("<td>").text(item.expiredQuantity));
-              $row.append($("<td>").text(item.damagedQuantity));
-              $row.append($("<td>").text("good"));
-              $row.append($("<td>").text("ops"));
-              $row.append($("<td>").append($("<a>").attr("href","").text("forecast")));
-              $inventoryTableBody.append($row);
-          });
+      $(document).ready(function() {
+        if (localStorage.getItem('login') != "true") {
+          window.location.href = 'signin.html';
+        }
 
-      }).fail(function(error) {
-          console.error("Error:", error);
+        // Retrieve the data from localStorage
+        var role = localStorage.getItem('role');
+
+        if (role != "ADMIN") {
+          alert("this page is only available to admin");
+          window.location.href = 'overview.html';
+        }
+        $.get('mockdata/inventory.json', function(data) {
+            console.log(data);
+            const $inventoryTableBody = $("#inventory-table tbody");
+      
+            data.forEach(item => {
+                const $row = $("<tr>");
+                $row.append($("<td>").text(item.productId));
+                $row.append($("<td>").text(item.productName));
+                $row.append($("<td>").text(item.stockQuantity));
+                $row.append($("<td>").text(item.expiredQuantity));
+                $row.append($("<td>").text(item.damagedQuantity));
+                $row.append($("<td>").text("good"));
+                $row.append($("<td>").html('<a href="order.html?op=create&productId=' + item.productId + '&productName=' + item.productName + '&count=' + item.damagedQuantity + '" data-productid=' + item.id + ' class="return" type="button">Return</a>'));
+                $row.append($("<td>").append($("<a>").attr("href","").text("forecast")));
+                $inventoryTableBody.append($row);
+            });
+
+        }).fail(function(error) {
+            console.error("Error:", error);
+        });
       });
 
     </script>

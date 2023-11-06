@@ -45,18 +45,6 @@
             <li><a href="order.html">Order</a></li>
             <li><a href="inventory.html">Inventory</a></li>
           </ul>
-          <!-- <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-          </ul> -->
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <!-- <h1 class="page-header">Dashboard</h1>
@@ -132,25 +120,42 @@
     <script src="js/viewport.js"></script>
     <script src="js/common.js"></script>
     <script>
-      $.get('mockdata/users.json', function(data) {
-          console.log(data);
-          const $vendorTableBody = $("#vendor-table tbody");
-    
-          data.forEach(item => {
-              const $row = $("<tr>");
-              
-              $row.append($("<td>").text(item.id));
-              $row.append($("<td>").text(item.name));
-              $row.append($("<td>").text(item.role));
-              $row.append($("<td>").append($("<a>").attr("href","").text("details")));
-              $row.append($("<td>").append($("<a>").attr("href","").text("orders")));
-              
-              $vendorTableBody.append($row);
-          });
+      $(document).ready(function() {
+        if (localStorage.getItem('login') != "true") {
+          window.location.href = 'signin.html';
+        }
 
-      }).fail(function(error) {
-          console.error("Error:", error);
-      });
+        // Retrieve the data from localStorage
+        var role = localStorage.getItem('role');
+        var userId = localStorage.getItem('userId');
+
+        if (role != "ADMIN") {
+          window.location.href = 'profile.html?userId=' + userId;
+        }
+
+        $.get('mockdata/users.json', function(data) {
+            console.log(data);
+
+            const $vendorTableBody = $("#vendor-table tbody");
+      
+            data.forEach(item => {
+                const $row = $("<tr>");
+                
+                $row.append($("<td>").text(item.id));
+                $row.append($("<td>").text(item.name));
+                $row.append($("<td>").text(item.role));
+                $row.append($("<td>").append($("<a>").attr("href","profile.html?userId=" + item.id).text("details")));
+                $row.append($("<td>").append($("<a>").attr("href","").text("orders")));
+                
+                $vendorTableBody.append($row);
+            });
+
+        }).fail(function(error) {
+            console.error("Error:", error);
+        });
+      })
+
+        
 
     </script>
   </body>

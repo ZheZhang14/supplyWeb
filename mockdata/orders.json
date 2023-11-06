@@ -10,6 +10,7 @@
 		"productPrice": 190.11,
 		"count": 10,
 		"status": "done",
+		"type": "normal",
 		"totalPrice": 1901.10
 	}, {
 		"id": 2,
@@ -22,6 +23,7 @@
 		"productPrice": 5,
 		"count": 100,
 		"status": "created",
+		"type": "normal",
 		"totalPrice": 500
 	}, {
 		"id": 3,
@@ -34,6 +36,7 @@
 		"productPrice": 11,
 		"count": 1000,
 		"status": "inProgress",
+		"type": "normal",
 		"totalPrice": 11000
 	}, {
 		"id": 4,
@@ -46,6 +49,7 @@
 		"productPrice": 108,
 		"count": 2,
 		"status": "requestReturn",
+		"type": "return",
 		"totalPrice": 216
 	}, {
 		"id": 5,
@@ -58,6 +62,7 @@
 		"productPrice": 190.11,
 		"count": 1,
 		"status": "returnApproved",
+		"type": "return",
 		"totalPrice": 190.11
 	}, {
 		"id": 6,
@@ -70,6 +75,33 @@
 		"productPrice": 108,
 		"count": 1,
 		"status": "rejected",
+		"type": "return",
+		"totalPrice": 108
+	}, {
+		"id": 7,
+		"createtime": "2023-10-29T06:26:23.401Z",
+		"updatetime": "2023-10-29T06:26:23.401Z",
+		"productId": 6,
+		"productName": "water",
+		"vendorId": 2,
+		"vendorName": "test name2",
+		"productPrice": 108,
+		"count": 1,
+		"status": "returnInProgress",
+		"type": "return",
+		"totalPrice": 108
+	}, {
+		"id": 6,
+		"createtime": "2023-10-29T06:26:23.401Z",
+		"updatetime": "2023-10-29T06:26:23.401Z",
+		"productId": 6,
+		"productName": "water",
+		"vendorId": 2,
+		"vendorName": "test name2",
+		"productPrice": 108,
+		"count": 1,
+		"status": "rejected",
+		"type": "normal",
 		"totalPrice": 108
 	}
 ]

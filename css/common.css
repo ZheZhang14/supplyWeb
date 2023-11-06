@@ -18,3 +18,11 @@
 /*  border: 1px solid #000000; /* Border around the text */*/
   display: inline-block;
 }
+.centerText h4{
+  text-align: center;
+  color: #444444;
+}
+.leftText h4{
+  text-align: left;
+  font-weight: 400;
+}

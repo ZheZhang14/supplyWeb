@@ -58,7 +58,7 @@
             <li><a href="">Another nav item</a></li>
           </ul> -->
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="original-page">
           <!-- <h1 class="page-header">Dashboard</h1>
 
           <div class="row placeholders">
@@ -85,6 +85,11 @@
           </div> -->
 
           <h2 class="sub-header">Products</h2>
+          <div class="row" id="createBtnDiv">
+            <div class="col-xs-1 col-sm-1 placeholder">
+              <button class="btn btn-lg btn-primary btn-block" type="button" id="create">Create</button>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="table table-striped" id="product-table">
               <thead>
@@ -95,6 +100,7 @@
                   <th>Price</th>
                   <th>Stage</th>
                   <th>Vendor Name</th>
+                  <th>Operation</th>
                 </tr>
               </thead>
               <tbody>
@@ -118,8 +124,41 @@
             </table>
           </div>
         </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="createProduct">
+          <form>
+            <h2 class="form-signin-heading">Product Create</h2>
+            <div class="form-group">
+              <label for="inputName" class="labels">Name</label>
+              <input type="text" class="form-control" id="inputName" placeholder="Name">
+            </div>
+            <div class="form-group">
+              <label for="inputDescription" class="labels">Description</label>
+              <input type="text" class="form-control" id="inputDescription" placeholder="Description">
+            </div>
+            <div class="form-group">
+              <label for="inputPrice" class="labels">Price</label>
+              <input type="text" class="form-control" id="inputPrice" placeholder="Price">
+            </div>
+            <!-- <div class="form-group">
+              <label for="exampleInputFile">File input</label>
+              <input type="file" id="exampleInputFile">
+              <p class="help-block">Example block-level help text here.</p>
+            </div> -->
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 placeholder">
+                <button class="btn btn-lg btn-danger btn-block" type="button" id="cancel">Cancel</button>
+              </div>
+              <div class="col-xs-6 col-sm-6 placeholder">
+                <button class="btn btn-lg btn-primary btn-block" type="button" id="createBtn">Submit</button>
+              </div>
+            </div>
+            
+          </form>
+        </div>
       </div>
     </div>
+
+    
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -135,25 +174,92 @@
     <script src="js/viewport.js"></script>
     <script src="js/common.js"></script>
     <script>
-      $.get('mockdata/products.json', function(data) {
-          console.log(data);
-          const $productTableBody = $("#product-table tbody");
-    
-          data.forEach(item => {
-              const $row = $("<tr>");
-              
-              $row.append($("<td>").text(item.id));
-              $row.append($("<td>").text(item.productName));
-              $row.append($("<td>").text(item.description));
-              $row.append($("<td>").text(item.price));
-              $row.append($("<td>").text(item.stage));
-              $row.append($("<td>").text(item.vendorName));
-              $productTableBody.append($row);
-          });
+      $(document).ready(function() {
+        $("#createBtnDiv").hide();
+        $("#createProduct").hide();
+        $(document).on('click', 'button.onMarket', function() {
+          console.log("click onMarket btn " + $(this).data('productid'));
+          // var myData = {
+          //   "op": "onMarket"
+          // }
+          // $.post("http://localhost:8083/api/v1/post/testproductOp/" + $(this).data('productid'), myData).done(function(response) {
+          //   // This function is called after the server sends a response.
+          //   alert(response);
+          //   location.reload();
+          // })
+          // .fail(function(response) {
+          //   alert(response.responseText);
+          // });
+        });
 
-      }).fail(function(error) {
-          console.error("Error:", error);
-      });
+        $(document).on('click', 'button.offMarket', function() {
+          console.log("click offMarket btn " + $(this).data('productid'));
+        });
+
+        // $("#createBtnDiv").hide();
+        if (localStorage.getItem('login') != "true") {
+          window.location.href = 'signin.html';
+        }
+        const userId = getParamValue("userId");
+
+        if (localStorage.getItem('role') != "ADMIN" && userId!=localStorage.getItem('userId')) {
+          alert("You can only check your own products!")
+          window.location.href = 'product.html?userId=' + localStorage.getItem('userId');
+        }
+
+        if (userId != null) {
+          $("#createBtnDiv").show();
+          $("#createBtnDiv").click(function() {
+            $("#createProduct").show();
+            $("#original-page").hide();
+          })
+          $("#cancel").click(function(){
+            location.reload();
+          })
+          $("#createBtn").click(function() {
+            alert("successfully created!");
+            location.reload();
+          })
+        }
+
+        $.get('mockdata/products.json', function(data) {
+            console.log(data);
+            const $productTableBody = $("#product-table tbody");
+      
+            data.forEach(item => {
+                if (userId != null && userId != item.vendorId) {
+                  return;
+                }
+                const $row = $("<tr>");
+                
+                $row.append($("<td>").text(item.id));
+                $row.append($("<td>").text(item.productName));
+                $row.append($("<td>").text(item.description));
+                $row.append($("<td>").text(item.price));
+                $row.append($("<td>").text(item.stage));
+                $row.append($("<td>").text(item.vendorName));
+                if (item.stage == 'onMarket') {
+                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-default btn-danger btn-block offMarket" type="button">off-market</button>'));
+                } else if (item.stage == 'offMarket') {
+                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-default btn-primary btn-block onMarket" type="button">on-market</button>'));
+                }
+                $productTableBody.append($row);
+            });
+
+
+
+            // $(".onMarket").click(function() {
+            //   console.log("click onMarket btn", this.data('productid'));
+            // })
+
+            // $(".offMarket").click(function() {
+            //   console.log("click offMarket btn", this.data('productid'));
+            // })
+        }).fail(function(error) {
+            console.error("Error:", error);
+        });
+
+      })
 
     </script>
   </body>
