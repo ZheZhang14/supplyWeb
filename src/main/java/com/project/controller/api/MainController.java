@@ -4,9 +4,7 @@ import com.project.constant.JwtClaimsConstant;
 import com.project.context.BaseContext;
 import com.project.pojo.dto.*;
 import com.project.pojo.entities.*;
-import com.project.pojo.vo.OrderOverviewVO;
-import com.project.pojo.vo.OverviewVO;
-import com.project.pojo.vo.UserLoginVO;
+import com.project.pojo.vo.*;
 import com.project.properties.JwtProperties;
 import com.project.result.Result;
 import com.project.service.InventoryService;
@@ -18,12 +16,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -69,22 +69,44 @@ public class MainController {
     }
 
     @PostMapping("/users/signup")
-    public Result signup(@RequestBody UserRegisterDTO userRegisterDTO){
+    public Result signup(@RequestBody UserRegisterDTO userRegisterDTO) throws Exception {
         User newUser = new User();
+        String originalFilename = userRegisterDTO.getImage().getOriginalFilename();
+        int index = originalFilename.lastIndexOf(".");
+        String extname = originalFilename.substring(index);
+        String newFileName = UUID.randomUUID().toString() +extname;
+        String filePath = "G:\\develop\\image\\" + newFileName;
+        userRegisterDTO.getImage().transferTo(new File("G:\\develop\\image\\"+newFileName));
         BeanUtils.copyProperties(userRegisterDTO,newUser);
+        newUser.setImagePath(filePath);
         newUser.setDateCreated(LocalDateTime.now());
         newUser.setPassword(DigestUtils.md5DigestAsHex(userRegisterDTO.getPassword().getBytes()));
         userService.register(newUser);
         return Result.success();
     }
 
+
     @PostMapping("/users/{id}/edit")
-    public Result editUser(@RequestBody UserEditDTO userEditDTO) {
+    public Result editUser(@RequestBody UserEditDTO userEditDTO) throws Exception {
         if (userEditDTO != null) {
             if (userEditDTO.getPassword() != null && !userEditDTO.getPassword().isEmpty()) {
                 String hashedPassword = DigestUtils.md5DigestAsHex(userEditDTO.getPassword().getBytes());
                 userEditDTO.setPassword(hashedPassword);
             }
+            UserByIdVO existingUser = userService.getUserById(userEditDTO.getId());
+            if (!existingUser.getUsername().equals(userEditDTO.getUsername())) {
+                return Result.error("Username cannot be changed");
+            }
+            if (existingUser.getUserRole() != userEditDTO.getUserRole()) {
+                return Result.error("User role cannot be changed");
+            }
+            String originalFilename = userEditDTO.getImage().getOriginalFilename();
+            int index = originalFilename.lastIndexOf(".");
+            String extname = originalFilename.substring(index);
+            String newFileName = UUID.randomUUID().toString() +extname;
+            String filePath = "G:\\develop\\image\\" + newFileName;
+            userEditDTO.getImage().transferTo(new File("G:\\develop\\image\\"+newFileName));
+            userEditDTO.setImagePath(filePath);
             userService.update(userEditDTO);
             return Result.success();
         } else {
@@ -101,10 +123,19 @@ public class MainController {
     }
 
     @GetMapping("/users/{userId}")
-    public Result<User> getUserById(@PathVariable Integer userId) {
-        User user = userService.getUserById(userId);
-        return Result.success(user);
+    public Result<UserByIdVO> getUserById(@PathVariable Integer userId) {
+        UserByIdVO userById = userService.getUserById(userId);
+        if (userById.getImagePath() != null && Files.exists(Paths.get(userById.getImagePath()))) {
+            String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/users/")
+                    .path(userById.getId().toString())
+                    .toUriString();
+            userById.setImagePath(imageUrl); // 设置图片的URL
+        }
+        return Result.success(userById);
     }
+
+
 
     /**
      * Overview, including get overview of all users, get self overview
@@ -138,7 +169,6 @@ public class MainController {
     @PostMapping("/products/create")
     public Result createProduct(@RequestBody ProductCreatedDTO productCreatedDTO){
         productCreatedDTO.setUserId(BaseContext.getCurrentId());
-        productCreatedDTO.setStock(1000);
         productService.createProduct(productCreatedDTO);
         return Result.success();
     }
@@ -182,5 +212,11 @@ public class MainController {
     public Result<List<Inventory>> getInventory(){
         List<Inventory> list = inventoryService.getAllInventory();
         return Result.success(list);
+    }
+
+    @PostMapping("/inventory/{id}/update")
+    public Result<String> updateInventory(@PathVariable(value="id") Integer id, @RequestBody InventoryDTO inventoryDTO){
+        inventoryService.updateInventory(id,inventoryDTO);
+        return Result.success();
     }
 }

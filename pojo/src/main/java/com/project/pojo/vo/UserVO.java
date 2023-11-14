@@ -1,5 +1,6 @@
-package com.project.pojo.entities;
+package com.project.pojo.vo;
 
+import com.project.pojo.entities.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

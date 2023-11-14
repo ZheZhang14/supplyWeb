@@ -26,6 +26,9 @@
             <if test="updateUser != null">
                 update_user = #{updateUser},
             </if>
+            <if test="imagePath != null">
+                image_path = #{imagePath}
+            </if>
         </set>
         WHERE id = #{id}
     </update>

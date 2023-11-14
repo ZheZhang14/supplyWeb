@@ -3,7 +3,8 @@ package com.project.service;
 import com.project.pojo.dto.UserEditDTO;
 import com.project.pojo.dto.UserLoginDTO;
 import com.project.pojo.entities.User;
-import com.project.pojo.entities.UserVO;
+import com.project.pojo.vo.UserByIdVO;
+import com.project.pojo.vo.UserVO;
 import com.project.pojo.vo.OrderOverviewVO;
 import com.project.pojo.vo.OverviewVO;
 
@@ -15,7 +16,7 @@ public interface UserService {
 
     void register(User newUser);
 
-    User getUserById(Integer userId);
+    UserByIdVO getUserById(Integer userId);
 
     List<UserVO> list();
 

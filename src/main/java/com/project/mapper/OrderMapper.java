@@ -4,6 +4,7 @@ import com.project.pojo.dto.OrderCreatedDTO;
 import com.project.pojo.entities.Order;
 import com.project.pojo.entities.OrderType;
 import com.project.pojo.vo.OrderOverviewVO;
+import com.project.pojo.vo.OrderVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -40,5 +41,8 @@ public interface OrderMapper {
 
     @Select("SELECT COUNT(*) FROM `order` WHERE order_type =  #{orderType}")
     Integer getCountByOrderType(OrderType orderType);
+
+    @Select("SELECT product_id,count from `order` where id=#{id}")
+    OrderVO getOrderById(Integer id);
 }
 

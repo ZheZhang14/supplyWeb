@@ -1,10 +1,8 @@
 package com.project.mapper;
 
+import com.project.pojo.dto.InventoryDTO;
 import com.project.pojo.entities.Inventory;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -17,23 +15,19 @@ public interface InventoryMapper {
     @Select("select stock from inventory where product_id=#{productId}")
     Integer getstock(Integer productId);
 
-    @Update("update inventory set stock=#{updateCount} where product_id=#{productId}")
-    void update(Integer updateCount, Integer productId);
-
     @Select("select product_id from inventory;")
     List<Integer> getProductId();
-
-    @Select("SELECT COUNT(*) FROM inventory WHERE product_id=#{productId}")
-    Integer getDamagedCount(Integer productId);
-
-    @Update("update inventory set damagedGoods_count=#{totalCount}")
-    void updateDamagedCount(Integer totalCount);
-
-    @Insert("insert into inventory (damagedGoods_count) VALUES (#{count})")
-    void insertDamagedCount(Integer count);
 
     @Select("SELECT inventory.*, product.product_name " +
             "FROM inventory " +
             "JOIN product ON inventory.product_id = product.id")
     List<Inventory> getAll();
+
+    void updateDamagedOrExpiredCount(@Param("id") Integer id, InventoryDTO inventoryDTO);
+
+    @Update("UPDATE inventory SET stock = #{totalStock} WHERE id = #{id}")
+    void updateById(Integer id, Integer totoalStock);
+
+    @Update("UPDATE inventory SET stock = #{totalStock} WHERE product_id=#{productId}")
+    void updateStock(Integer totalCount, Integer productId);
 }

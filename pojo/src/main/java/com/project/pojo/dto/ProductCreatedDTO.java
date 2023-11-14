@@ -15,6 +15,5 @@ public class ProductCreatedDTO {
     private String description;
     private BigDecimal price;
     private Integer userId;
-    private Integer stock;
     private Integer id;
 }

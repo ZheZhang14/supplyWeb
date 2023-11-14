@@ -7,7 +7,8 @@ import com.project.mapper.UserMapper;
 import com.project.pojo.dto.UserEditDTO;
 import com.project.pojo.dto.UserLoginDTO;
 import com.project.pojo.entities.User;
-import com.project.pojo.entities.UserVO;
+import com.project.pojo.vo.UserByIdVO;
+import com.project.pojo.vo.UserVO;
 import com.project.pojo.vo.OrderOverviewVO;
 import com.project.pojo.vo.OverviewVO;
 import com.project.service.UserService;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import com.project.exception.AccountNotFoundException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,25 +59,25 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public void register(User newUser) {
-        User user = userMapper.getByUserId(newUser.getId());
+    public void register(User newUser){
+        UserByIdVO user = userMapper.getByUserId(newUser.getId());
         if(user.getContactName() == newUser.getContactName()){
             throw new RuntimeException("This contactName has already exist");
         }
         userMapper.register(newUser);
     }
 
-    public User getUserById(Integer userId) {
-        User user = userMapper.getByUserId(userId);
+    public UserByIdVO getUserById(Integer userId){
+        UserByIdVO user = userMapper.getByUserId(userId);
         return user;
     }
 
-    public List<UserVO> list() {
+    public List<UserVO> list(){
         List<UserVO> list = userMapper.getAll();
         return list;
     }
 
-    public void update(UserEditDTO userEditDTO) {
+    public void update(UserEditDTO userEditDTO){
         userMapper.updateDetails(userEditDTO);
     }
 
@@ -95,6 +95,9 @@ public class UserServiceImpl implements UserService {
 
         map.put("status",Done);
         Integer orderDoneCount= userMapper.countByMap1(map);
+
+        map.put("status",Created);
+        Integer orderCreatedCount = userMapper.countByMap1(map);
 
         map.put("status",In_Progress);
         Integer inProgressCount= userMapper.countByMap1(map);
@@ -116,6 +119,7 @@ public class UserServiceImpl implements UserService {
                 .supplierCount(supplierCount)
                 .distributorCount(distributorCount)
                 .manufacturerCount(manufacturerCount)
+                .orderCreatedCount(orderCreatedCount)
                 .inProgressCount(inProgressCount)
                 .doneCount(orderDoneCount)
                 .offMarketCount(offMarket)

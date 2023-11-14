@@ -1,18 +1,15 @@
-package com.project.pojo.entities;
+package com.project.pojo.dto;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Inventory{
-    private Integer id;
-    private Integer productId;
-    private Integer stock;
-    private Integer expiredGoodsCount;
+@Data
+public class InventoryDTO {
     private Integer damagedGoodsCount;
+    private Integer expiredGoodsCount;
     private String valuation;
 }

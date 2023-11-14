@@ -4,6 +4,7 @@ import com.project.pojo.entities.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -21,4 +22,6 @@ public class UserRegisterDTO {
     private String address;
     private LocalDateTime dateCreated;
     private Long createUser;
+    private MultipartFile image;
+    private String imagePath;
 }

@@ -33,8 +33,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void createProduct(ProductCreatedDTO productCreatedDTO) {
         productMapper.insert(productCreatedDTO);
-        Integer id  = productCreatedDTO.getId();
-        inventoryMapper.insertStock(productCreatedDTO.getStock(),id);
     }
 
     @Override

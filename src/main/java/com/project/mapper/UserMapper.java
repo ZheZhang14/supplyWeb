@@ -3,8 +3,8 @@ package com.project.mapper;
 
 import com.project.pojo.dto.UserEditDTO;
 import com.project.pojo.entities.User;
-import com.project.pojo.entities.UserVO;
-import com.project.pojo.vo.OverviewVO;
+import com.project.pojo.vo.UserByIdVO;
+import com.project.pojo.vo.UserVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -20,13 +20,13 @@ public interface UserMapper {
     @Select("select * from user where username=#{username};")
     User getByUsername(String username);
 
-    @Insert("INSERT INTO user(username, password, email, contact_name, phone, user_role, date_created,address) " +
-            "VALUES(#{username}, #{password}, #{email}, #{contactName}, #{phone}, #{userRole}, #{dateCreated},#{address})")
+    @Insert("INSERT INTO user(username, password, email, contact_name, phone, user_role, date_created,address,image_path) " +
+            "VALUES(#{username}, #{password}, #{email}, #{contactName}, #{phone}, #{userRole}, #{dateCreated},#{address},#{imagePath})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void register(User newUser);
 
     @Select("select * from user where id=#{userId};")
-    User getByUserId(Integer userId);
+    UserByIdVO getByUserId(Integer userId);
 
     @Select("SELECT id, contact_name, user_role FROM user")
     List<UserVO> getAll();

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +27,9 @@ public class User {
     private String phone;
 
     private String address;
+
+    private MultipartFile image;
+    private String imagePath;
 
     public int getId() {
         return id;

@@ -8,6 +8,7 @@ import com.project.pojo.entities.Order;
 import com.project.pojo.entities.OrderType;
 import com.project.pojo.entities.Product;
 import com.project.pojo.entities.Status;
+import com.project.pojo.vo.OrderVO;
 import com.project.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,30 +57,6 @@ public class OrderServiceImpl implements OrderService {
         if (orderCreatedDTO.getCount() > inventoryMapper.getstock(orderCreatedDTO.getProductId())) {
             throw new RuntimeException("Inventory Shortage");
         }
-
-        if (orderCreatedDTO.getOrderType().equals(OrderType.Return)) {
-            List<Integer> productIds = inventoryMapper.getProductId();
-            boolean flag = false;
-            for (Integer productId : productIds) {
-                if (orderCreatedDTO.getProductId() == productId) {
-                    flag = true;
-                    break;
-                }
-            }
-            if (flag) {
-                Integer count = orderMapper.getCountByOrderType(orderCreatedDTO.getOrderType());
-                Integer count1 = inventoryMapper.getDamagedCount(orderCreatedDTO.getProductId());
-                Integer totalCount = count1 + count;
-                inventoryMapper.updateDamagedCount(totalCount);
-            } else {
-                Integer count = orderMapper.getCountByOrderType(orderCreatedDTO.getOrderType());
-                inventoryMapper.insertDamagedCount(count);
-            }
-        }
-        Integer count1 = orderCreatedDTO.getCount();
-        Integer updateCount = inventoryMapper.getstock(orderCreatedDTO.getProductId()) - count1;
-        Integer productId = orderCreatedDTO.getProductId();
-        inventoryMapper.update(updateCount, productId);
         orderMapper.createOrder(orderCreatedDTO);
     }
 
@@ -89,6 +66,39 @@ public class OrderServiceImpl implements OrderService {
                 .id(id)
                 .status(status)
                 .build();
+        OrderVO order1 = orderMapper.getOrderById(id);
+        Integer productId = order1.getProductId();
+        if(status.equals(Status.Done)){
+            List<Integer> productIds = inventoryMapper.getProductId();
+            boolean flag = false;
+            for(Integer productId1 : productIds){
+                if(id == productId1){
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag){
+                Integer count = order1.getCount();
+                Integer stock = inventoryMapper.getstock(productId);
+                Integer totalStock = count+stock;
+                inventoryMapper.insertStock(totalStock,productId);
+            }else{
+                Integer count = order1.getCount();
+                inventoryMapper.insertStock(count,productId);
+            }
+        }
+        if(status.equals(Status.Return)){
+            List<Integer> productIds = inventoryMapper.getProductId();
+            for(Integer productId1 : productIds){
+                if(id == productId1){
+                    Integer count = order1.getCount();
+                    Integer stock = inventoryMapper.getstock(productId);
+                    Integer totalCount = count-stock;
+                    inventoryMapper.updateStock(totalCount,productId);
+                    break;
+                }
+            }
+        }
         orderMapper.updateOrder(order);
     }
 }
