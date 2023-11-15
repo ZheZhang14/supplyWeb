@@ -5,7 +5,6 @@ import com.project.mapper.OrderMapper;
 import com.project.mapper.ProductMapper;
 import com.project.pojo.dto.OrderCreatedDTO;
 import com.project.pojo.entities.Order;
-import com.project.pojo.entities.OrderType;
 import com.project.pojo.entities.Product;
 import com.project.pojo.entities.Status;
 import com.project.pojo.vo.OrderVO;
