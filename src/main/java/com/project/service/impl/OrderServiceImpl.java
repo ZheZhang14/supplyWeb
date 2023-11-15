@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
                 Integer count = order1.getCount();
                 Integer stock = inventoryMapper.getstock(productId);
                 Integer totalStock = count+stock;
-                inventoryMapper.insertStock(totalStock,productId);
+                inventoryMapper.updateStock(totalStock,productId);
             }else{
                 Integer count = order1.getCount();
                 inventoryMapper.insertStock(count,productId);
