@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Supply Management</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/main.css" rel="stylesheet">
+    <link href="css/common.css?v=1.1" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -58,32 +59,7 @@
             <li><a href="">Another nav item</a></li>
           </ul> -->
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <!-- <h1 class="page-header">Dashboard</h1>
-
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-          </div> -->
-
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="original-page">
           <h2 class="sub-header">Inventory</h2>
           <div class="table-responsive">
             <table class="table table-striped" id="inventory-table">
@@ -91,7 +67,7 @@
                 <tr>
                   <th>#</th>
                   <th>Product Name</th>
-                  <th>In Stock</th>
+                  <th>Stock in total</th>
                   <th>Expired</th>
                   <th>Damaged</th>
                   <th>Valuation</th>
@@ -100,26 +76,56 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- <tr>
-                  <td>1</td>
-                  <td>vendor name</td>
-                  <td>Supplier</td>
-                  <td><a href="">details</a></td>
-                  <td><a href="">orders</a></td>
-                  <td>Order Completed: 10/23.<br>Order Average Completion time: 10 days.</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>vendor name2</td>
-                  <td>Distributor</td>
-                  <td><a href="">details</a></td>
-                  <td><a href="">orders</a></td>
-                  <td>Order Completed: 20/32.<br>Order Average Completion time: 12 days.</td>
-                </tr> -->
               </tbody>
             </table>
           </div>
         </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main hideDiv" style="height: 800px" id="myChartDiv">
+
+          <canvas id="myChart" width="200" height="200"></canvas>
+        </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main hideDiv" id="updateInventoryDiv">
+          <form>
+            <h2 class="form-signin-heading">Inventory Update</h2>
+            <div class="form-group">
+              <label for="inputId" class="labels">Id</label>
+              <input type="text" class="form-control" id="inputId" placeholder="Id" disabled>
+            </div>
+            <div class="form-group">
+              <label for="inputName" class="labels">Name</label>
+              <input type="text" class="form-control" id="inputName" placeholder="Name" disabled>
+            </div>
+            <div class="form-group">
+              <label for="inputTotalCount" class="labels">Stock in total</label>
+              <input type="text" class="form-control" id="inputTotalCount" placeholder="Total Count">
+            </div>
+            <div class="form-group">
+              <label for="inputExpired" class="labels">Expired</label>
+              <input type="text" class="form-control" id="inputExpired" placeholder="Expired">
+            </div>
+            <div class="form-group">
+              <label for="inputDamaged" class="labels">Damaged</label>
+              <input type="text" class="form-control" id="inputDamaged" placeholder="Damaged">
+            </div>
+            <div class="form-group">
+              <label for="inputValuation" class="labels">Valuation</label>
+              <input type="text" class="form-control" id="inputValuation" placeholder="Valuation">
+            </div>
+            
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 placeholder">
+                <button class="btn btn-lg btn-danger btn-block" type="button" id="cancel">Cancel</button>
+              </div>
+              <div class="col-xs-6 col-sm-6 placeholder">
+                <button class="btn btn-lg btn-primary btn-block" type="button" id="submitBtn">Submit</button>
+              </div>
+            </div>
+            
+          </form>
+        </div>
+
       </div>
     </div>
 
@@ -131,13 +137,103 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="js/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/viewport.js"></script>
-    <script src="js/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.js"></script>
+    <script src="js/common.js?v=1.5"></script>
     <script>
+
+      var months = ["June", "July", "August", "September", "October", "November", "December"];
+
+      var beginDate = new Date('2023-06-01T07:00:00Z');
+
       $(document).ready(function() {
+
+        $(document).on('click', 'button.destroy', function() {
+          let productId = $(this).data('productid');
+          let stock = $(this).data('stock');
+          let expired = $(this).data('expire');
+          let myData = {
+            "expiredGoodsCount": 0,
+            "stock": parseInt(stock, 10) - parseInt(expired, 10)
+          };
+          $.post("http://localhost:8087/api/v1/inventory/" + productId + "/update", myData).done(function(response) {
+            // This function is called after the server sends a response.
+            alert("Successfully expired products !");
+            location.reload();
+          })
+          .fail(function(response) {
+            alert("Something is wrong in the server!");
+          });
+        });
+
+        $(document).on('click', 'button.updateInventory', function() {
+          $("#original-page").hide();
+          let productId = $(this).data('productid');
+
+          $.get('http://localhost:8087/api/v1/inventory', function(res) {
+            data = res.data;
+      
+            data.forEach(item => {
+              if (item.productId != productId) {
+                return;
+              }
+              $("#inputId").val(item.productId);
+              $("#inputName").val(item.productName);
+              $("#inputTotalCount").val(item.stock);
+              $("#inputExpired").val(item.expiredGoodsCount);
+              $("#inputDamaged").val(item.damagedGoodsCount);
+              $("#inputValuation").val(item.valuation);
+            });
+          });
+          $("#updateInventoryDiv").show();
+        });
+
+        $("#submitBtn").click(function() {
+          let productId = $("#inputId").val();
+          let stock = parseInt($("#inputTotalCount").val(), 10);
+          let expiredGoodsCount = parseInt($("#inputExpired").val(), 10);
+          let damagedGoodsCount = parseInt($("#inputDamaged").val(), 10);
+          let valuation = $("#inputValuation").val();
+
+          if (stock < expiredGoodsCount + damagedGoodsCount) {
+            alert("Expired Count + damaged Count should be less than total count");
+          }
+
+          let myData = {
+            "stock": stock,
+            "expiredGoodsCount": expiredGoodsCount,
+            "damagedGoodsCount": damagedGoodsCount,
+            "valuation": valuation
+          };
+
+          $.post("http://localhost:8087/api/v1/inventory/" + productId + "/update", myData).done(function(response) {
+            // This function is called after the server sends a response.
+            alert("Successfully updated inventory count of " + $("#inputName").val() + "!");
+            location.reload();
+          })
+          .fail(function(response) {
+            alert("Something is wrong in the server!");
+          });
+        })
+
+        $("#cancel").click(function(){
+          location.reload();
+        })
+
+        // Example usage:
+        // var dataPoints = [
+        //   [0, 1], [1, 2], [2, 4], [3, 9], [4, 16]
+        // ];
+        var order = 2; // Quadratic polynomial
+        var myLineChart;
+
+
+
         if (localStorage.getItem('login') != "true") {
           window.location.href = 'signin.html';
         }
@@ -149,7 +245,8 @@
           alert("this page is only available to admin");
           window.location.href = 'overview.html';
         }
-        $.get('mockdata/inventory.json', function(data) {
+        $.get('http://localhost:8087/api/v1/inventory', function(res) {
+            data = res.data;
             console.log(data);
             const $inventoryTableBody = $("#inventory-table tbody");
       
@@ -157,18 +254,80 @@
                 const $row = $("<tr>");
                 $row.append($("<td>").text(item.productId));
                 $row.append($("<td>").text(item.productName));
-                $row.append($("<td>").text(item.stockQuantity));
-                $row.append($("<td>").text(item.expiredQuantity));
-                $row.append($("<td>").text(item.damagedQuantity));
-                $row.append($("<td>").text("good"));
-                $row.append($("<td>").html('<a href="order.html?op=create&productId=' + item.productId + '&productName=' + item.productName + '&count=' + item.damagedQuantity + '" data-productid=' + item.id + ' class="return" type="button">Return</a>'));
-                $row.append($("<td>").append($("<a>").attr("href","").text("forecast")));
+                $row.append($("<td>").text(item.stock));
+                $row.append($("<td>").text(item.expiredGoodsCount));
+                $row.append($("<td>").text(item.damagedGoodsCount));
+                $row.append($("<td>").text(item.valuation));
+                
+                let expiredDestroyButton = "";
+                let damageReturnButton = "";
+                if (parseInt(item.damagedGoodsCount, 10) > 0) {
+                  damageReturnButton = '<a href="order.html?op=create&productId=' + item.productId + '&productName=' + item.productName + '&count=' + item.damagedGoodsCount + '" data-productid=' + item.productId + ' class="rightMargin return btn btn-sm btn-success" type="button">Damage Return</a>';
+                } else {
+                  damageReturnButton = '<a "data-productid=' + item.productId + ' class="rightMargin return btn btn-sm btn-default" type="button" disabled>Damage Return</a>';
+                }
+
+                if (parseInt(item.expiredGoodsCount, 10) > 0) {
+                  expiredDestroyButton = '<button data-productid=' + item.id + ' data-stock=' + item.stock + ' data-expire=' + item.expiredGoodsCount + ' class="rightMargin btn btn-sm btn-danger destroy" type="button">Expire Destroy</button>';
+                } else {
+                  expiredDestroyButton = '<button class="rightMargin btn btn-sm btn-danger destroy" type="button" disabled>Expire Destroy</button>';
+                }
+
+                $row.append($("<td>").html('<button data-productid=' + item.id + ' class="rightMargin btn btn-sm btn-primary updateInventory" type="button">Edit</button>' + expiredDestroyButton + damageReturnButton));
+                
+                $row.append($("<td>").append($("<a>").addClass("forecast").attr("href","").data("productId", item.productId).text("forecast")));
                 $inventoryTableBody.append($row);
             });
 
         }).fail(function(error) {
             console.error("Error:", error);
         });
+
+
+        $(document).on('click', '.forecast', function(event) {
+          event.preventDefault();
+          var productId = $(this).data("productId");
+
+          $.get('http://localhost:8087/api/v1/orders/product/' + productId, function(res) {
+            let chartData = {};
+            data = res.data;
+            console.log(data);
+            data.forEach(item => {
+              let updatetime = new Date(item.updatetime);
+              if (updatetime.getTime() < beginDate.getTime()) {
+                return;
+              }
+              
+              let updatetimeMonth = months[updatetime.getMonth() - 5];
+              if (chartData[updatetimeMonth]) {
+                chartData[updatetimeMonth] += item.count;
+              } else {
+                chartData[updatetimeMonth] = item.count;
+              }
+            })
+
+            let chartDataNew = [];
+            let chartDataPoints = [];
+            for (let i = 0; i <= 5; i++) {
+              if (!chartData[months[i]]) {
+                chartData[months[i]] = 0;
+              }
+              chartDataNew.push([i, chartData[months[i]]]);
+              chartDataPoints.push(chartData[months[i]]);
+            }
+            let coefficients = polynomialRegression(chartDataNew, order);
+            let finalChartData = []
+            for (let i = 0; i <= 6; i++) {
+              let predictData = evaluatePolynomial(coefficients, i);
+              if (predictData < 0) {
+                predictData = 0;
+              }
+              finalChartData.push(predictData);
+            }
+            myLineChart = drawChart(finalChartData, chartDataPoints, myLineChart);
+          });
+          $("#myChartDiv").show();
+        })
       });
 
     </script>

@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Supply Management</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -118,7 +118,7 @@
     <script src="js/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/viewport.js"></script>
-    <script src="js/common.js"></script>
+    <script src="js/common.js?v=1.1"></script>
     <script>
       $(document).ready(function() {
         if (localStorage.getItem('login') != "true") {
@@ -133,19 +133,22 @@
           window.location.href = 'profile.html?userId=' + userId;
         }
 
-        $.get('mockdata/users.json', function(data) {
+        $.get('http://localhost:8087/api/v1/users', function(data) {
             console.log(data);
 
             const $vendorTableBody = $("#vendor-table tbody");
       
-            data.forEach(item => {
+            data.data.forEach(item => {
+                if (item.userRole == 'admin') {
+                  return;
+                }
                 const $row = $("<tr>");
                 
                 $row.append($("<td>").text(item.id));
-                $row.append($("<td>").text(item.name));
-                $row.append($("<td>").text(item.role));
+                $row.append($("<td>").text(item.contactName));
+                $row.append($("<td>").text(item.userRole));
                 $row.append($("<td>").append($("<a>").attr("href","profile.html?userId=" + item.id).text("details")));
-                $row.append($("<td>").append($("<a>").attr("href","").text("orders")));
+                $row.append($("<td>").append($("<a>").attr("href","order.html?userId=" + item.id).text("orders")));
                 
                 $vendorTableBody.append($row);
             });

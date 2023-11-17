@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Supply Management</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -124,7 +124,7 @@
             </table>
           </div>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="createProduct">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main hideDiv" id="createProduct">
           <form>
             <h2 class="form-signin-heading">Product Create</h2>
             <div class="form-group">
@@ -155,6 +155,42 @@
             
           </form>
         </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main hideDiv" id="updateProduct">
+          <form>
+            <h2 class="form-signin-heading">Product Update</h2>
+            <div class="form-group">
+              <label for="inputId1" class="labels">Product Id</label>
+              <input type="text" class="form-control" id="inputId1" disabled>
+            </div>
+            <div class="form-group">
+              <label for="inputName1" class="labels">Name</label>
+              <input type="text" class="form-control" id="inputName1" disabled>
+            </div>
+            <div class="form-group">
+              <label for="inputDescription1" class="labels">Description</label>
+              <input type="text" class="form-control" id="inputDescription1">
+            </div>
+            <div class="form-group">
+              <label for="inputPrice1" class="labels">Price</label>
+              <input type="text" class="form-control" id="inputPrice1">
+            </div>
+            <!-- <div class="form-group">
+              <label for="exampleInputFile">File input</label>
+              <input type="file" id="exampleInputFile">
+              <p class="help-block">Example block-level help text here.</p>
+            </div> -->
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 placeholder">
+                <button class="btn btn-lg btn-danger btn-block" type="button" id="cancelUpdate">Cancel</button>
+              </div>
+              <div class="col-xs-6 col-sm-6 placeholder">
+                <button class="btn btn-lg btn-primary btn-block" type="button" id="updateBtn">Submit</button>
+              </div>
+            </div>
+            
+          </form>
+        </div>
       </div>
     </div>
 
@@ -176,60 +212,170 @@
     <script>
       $(document).ready(function() {
         $("#createBtnDiv").hide();
-        $("#createProduct").hide();
         $(document).on('click', 'button.onMarket', function() {
-          console.log("click onMarket btn " + $(this).data('productid'));
-          // var myData = {
-          //   "op": "onMarket"
-          // }
-          // $.post("http://localhost:8083/api/v1/post/testproductOp/" + $(this).data('productid'), myData).done(function(response) {
-          //   // This function is called after the server sends a response.
-          //   alert(response);
-          //   location.reload();
-          // })
-          // .fail(function(response) {
-          //   alert(response.responseText);
-          // });
+          let productId = $(this).data('productid');
+          let myData = {
+            "stage": "On_Market"
+          }
+          $.post("http://localhost:8087/api/v1/products/" + productId + "/update/stage", myData).done(function(response) {
+            alert("Successfully make product" + productId + " on market!");
+            location.reload();
+          })
+          .fail(function(response) {
+            alert("Something is wrong in the server!");
+          });
         });
 
         $(document).on('click', 'button.offMarket', function() {
-          console.log("click offMarket btn " + $(this).data('productid'));
+          let productId = $(this).data('productid');
+          let myData = {
+            "stage": "Off_Market"
+          }
+          $.post("http://localhost:8087/api/v1/products/" + productId + "/update/stage", myData).done(function(response) {
+            alert("Successfully make product" + productId + " off market!");
+            location.reload();
+          })
+          .fail(function(response) {
+            alert("Something is wrong in the server!");
+          });
         });
 
-        // $("#createBtnDiv").hide();
+        $("#updateBtn").click(function() {
+          let id = $("#inputId1").val();
+          let name = $("#inputName1").val();
+          let des = $("#inputDescription1").val();
+          let price = $("#inputPrice1").val();
+
+          let myData = {
+            "description": des,
+            "price": price
+          };
+
+          console.log(myData);
+
+          $.post("http://localhost:8087/api/v1/products/" + id + "/update", myData).done(function(response) {
+            // This function is called after the server sends a response.
+            alert("Successfully updated product " + name + "!");
+            location.reload();
+          })
+          .fail(function(response) {
+            alert("Something is wrong in the server!");
+          });
+        })
+
+        $(document).on('click', 'button.updateProduct', function() {
+          $("#original-page").hide();
+          let productId = $(this).data('productid');
+          $.get('http://localhost:8087/api/v1/products', function(res) {
+            data = res.data;
+            data.forEach(item => {
+              if (item.id != productId) {
+                return;
+              }
+              $("#inputId1").val(item.id);
+              $("#inputName1").val(item.productName);
+              $("#inputDescription1").val(item.description);
+              $("#inputPrice1").val(item.price);
+            });
+          })
+          $("#updateProduct").show();
+        });
+
         if (localStorage.getItem('login') != "true") {
           window.location.href = 'signin.html';
         }
         const userId = getParamValue("userId");
 
         if (localStorage.getItem('role') != "ADMIN" && userId!=localStorage.getItem('userId')) {
-          alert("You can only check your own products!")
+          console.log("You can only check your own products!")
           window.location.href = 'product.html?userId=' + localStorage.getItem('userId');
         }
 
         if (userId != null) {
+          $.get('http://localhost:8087/api/v1/products/' + userId, function(res) {
+            data = res.data
+            data.sort(function(a, b) {
+                if (a.id < b.id) {
+                    return -1;
+                }
+                if (a.id > b.id) {
+                    return 1;
+                }
+                return 0;
+            });
+              
+            const $productTableBody = $("#product-table tbody");
+      
+            data.forEach(item => {
+              const $row = $("<tr>");
+              
+              $row.append($("<td>").text(item.id));
+              $row.append($("<td>").text(item.productName));
+              $row.append($("<td>").text(item.description));
+              $row.append($("<td>").text(item.price));
+              $row.append($("<td>").text(item.stage));
+              $row.append($("<td>").text(item.contactName));
+              $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-default btn-primary btn-block updateProduct" type="button">Edit</button>'));
+              $productTableBody.append($row);
+            });
+          }).fail(function(error) {
+            console.error("Error:", error);
+          });
+
+
           $("#createBtnDiv").show();
           $("#createBtnDiv").click(function() {
             $("#createProduct").show();
             $("#original-page").hide();
           })
+
           $("#cancel").click(function(){
             location.reload();
           })
-          $("#createBtn").click(function() {
-            alert("successfully created!");
+          $("#cancelUpdate").click(function(){
             location.reload();
           })
-        }
+          $("#createBtn").click(function() {
+            var name = $("#inputName").val();
+            var des = $("#inputDescription").val();
+            var price = $("#inputPrice").val();
 
-        $.get('mockdata/products.json', function(data) {
+            var myData = {
+              "name": name,
+              "description": des,
+              "price": price,
+              "userId": userId
+            };
+
+            console.log(myData);
+
+            $.post("http://localhost:8087/api/v1/products/create", myData).done(function(response) {
+              // This function is called after the server sends a response.
+              alert("Successfully added a product!");
+              location.reload();
+            })
+            .fail(function(response) {
+              alert("Something is wrong in the server!");
+            });
+            
+          })
+        } else {
+          $.get('http://localhost:8087/api/v1/products', function(res) {
+            data = res.data
+            data.sort(function(a, b) {
+                if (a.id < b.id) {
+                    return -1;
+                }
+                if (a.id > b.id) {
+                    return 1;
+                }
+                return 0;
+            });
+            console.log(res);
             console.log(data);
             const $productTableBody = $("#product-table tbody");
       
             data.forEach(item => {
-                if (userId != null && userId != item.vendorId) {
-                  return;
-                }
                 const $row = $("<tr>");
                 
                 $row.append($("<td>").text(item.id));
@@ -237,27 +383,18 @@
                 $row.append($("<td>").text(item.description));
                 $row.append($("<td>").text(item.price));
                 $row.append($("<td>").text(item.stage));
-                $row.append($("<td>").text(item.vendorName));
-                if (item.stage == 'onMarket') {
-                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-default btn-danger btn-block offMarket" type="button">off-market</button>'));
-                } else if (item.stage == 'offMarket') {
-                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-default btn-primary btn-block onMarket" type="button">on-market</button>'));
+                $row.append($("<td>").text(item.contactName));
+                if (item.stage == 'On_Market') {
+                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-default btn-danger btn-block offMarket" type="button">Off-market</button>'));
+                } else if (item.stage == 'Off_Market') {
+                  $row.append($("<td>").html('<button data-productid=' + item.id + ' class="btn btn-default btn-primary btn-block onMarket" type="button">On-market</button>'));
                 }
                 $productTableBody.append($row);
             });
-
-
-
-            // $(".onMarket").click(function() {
-            //   console.log("click onMarket btn", this.data('productid'));
-            // })
-
-            // $(".offMarket").click(function() {
-            //   console.log("click offMarket btn", this.data('productid'));
-            // })
-        }).fail(function(error) {
+          }).fail(function(error) {
             console.error("Error:", error);
-        });
+          });
+        }
 
       })
 

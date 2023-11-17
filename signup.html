@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>Supply Management Signup</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -110,7 +110,7 @@
           var myData = {
             username: usernameValue,
             password: md5Hash,
-            userType: userTypeValue,
+            usertype: userTypeValue,
             name: nameValue,
             email: emailValue,
             phone: phoneValue,
@@ -119,14 +119,14 @@
 
           console.log(myData);
 
-          $.post("http://localhost:8083/api/v1/post/testsignup", myData).done(function(response) {
+          $.post("http://localhost:8087/api/v1/users/signup", myData).done(function(response) {
             // This function is called after the server sends a response.
-            alert(response + " Please Sign In in the next page.");
+            alert("Successfully registered! Please Sign In in the next page.");
 
             window.location.href = 'signin.html';
           })
           .fail(function(response) {
-            alert(response.responseText);
+            alert("Something is wrong in the server!");
           });
         })
       })

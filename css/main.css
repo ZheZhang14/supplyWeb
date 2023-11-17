@@ -107,3 +107,6 @@ body {
 #nonAdmin {
   display: none;
 }
+.hideDiv {
+  display: none;
+}
